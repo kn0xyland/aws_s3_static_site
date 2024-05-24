@@ -42,18 +42,6 @@ variable "default_tags" {
   type = map(string)
 }
 
-variable "myip" {
-  description = "My Public IP Address - Services are secured to your Public IP on deployment for extra security"
-  type        = string
-  default     = ""
-}
-
-variable "azs" {
-  description = "A list of availability zones names or ids in the region"
-  type        = list(string)
-  default     = []
-}
-
 variable "timezone" {
   description = "Timezone "
   type        = string

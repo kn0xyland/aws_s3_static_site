@@ -46,19 +46,6 @@ resource "aws_s3_bucket" "static_site_bucket" {
 
 }
 
-#resource "aws_s3_bucket_website_configuration" "static_site_bucket_website_configuration" {
-#  bucket = aws_s3_bucket.static_site_bucket.id
-#
-#  index_document {
-#    suffix = "index.html"
-#  }
-#
-#  error_document {
-#    key = "error.html"
-#  }
-#
-#}
-
 resource "aws_s3_bucket_server_side_encryption_configuration" "static_site_encryption_configuration" {
   bucket = aws_s3_bucket.static_site_bucket.id
 
@@ -197,97 +184,6 @@ resource "aws_s3_bucket_policy" "static_site_bucket_policy_cloudfront_lockdown" 
     ]
   })
 }
-
-
-
-
-
-#resource "aws_s3_bucket_policy" "static_site_bucket_policy_cloudfront_lockdown" {
-#  depends_on = [ aws_s3_bucket.static_site_bucket ]
-#  bucket = aws_s3_bucket.static_site_bucket.id
-#
-#  policy = <<EOF
-#{
-#    "Version": "2012-10-17",
-#    "Statement": {
-#        "Sid": "AllowCloudFrontServicePrincipalReadOnly",
-#        "Effect": "Allow",
-#        "Principal": {
-#            "Service": "cloudfront.amazonaws.com"
-#        },
-#        "Action": [
-#                  "s3:GetObject"
-#        ],
-#        "Resource": "arn:aws:s3:::${aws_s3_bucket.static_site_bucket.id}/*",
-#        "Condition": {
-#            "StringEquals": {
-#                "AWS:SourceArn": "arn:aws:cloudfront::${var.aws_account_id}:distribution/${aws_cloudfront_distribution.static_site_distribution.id}"
-#            }
-#        }
-#    }
-#}
-#EOF
-#}
-
-#resource "aws_s3_bucket_policy" "cloudfront_logging_bucket_policy" {
-#  depends_on = [ aws_cloudfront_distribution.static_site_distribution ]
-#  bucket = aws_s3_bucket.cloudfront_logging_bucket.id
-#  policy = <<EOF
-#{
-#    "Version": "2012-10-17",
-#    "Statement": {
-#        "Sid": "AllowCloudFrontServicePrincipalReadOnly",
-#        "Effect": "Allow",
-#        "Principal": {
-#            "Service": "cloudfront.amazonaws.com"
-#        },
-#        "Action": [
-#                  "s3:GetObject",
-#                  "s3:PutObject",
-#                  "s3:GetBucketAcl",
-#                  "s3:PutBucketAcl"
-#        ],
-#        "Resource": "arn:aws:s3:::${aws_s3_bucket.cloudfront_logging_bucket.id}/*",
-#        "Condition": {
-#            "StringEquals": {
-#                "AWS:SourceArn": "arn:aws:cloudfront::111122223333:distribution/${aws_cloudfront_distribution.static_site_distribution.id}"
-#            }
-#        }
-#    }
-#}
-#EOF
-#}
-
-#resource "aws_acm_certificate" "static_site_certificate" {
-#  domain_name       = var.fqdn
-#  validation_method = "DNS"
-#
-#  lifecycle {
-#    create_before_destroy = true
-#  }
-#}
-
-#resource "aws_acm_certificate" "cert" {
-#  domain_name       = var.fqdn
-#  validation_method = "DNS"
-#
-#  lifecycle {
-#    create_before_destroy = true
-#  }
-#}
-
-#resource "aws_route53_record" "cert_validation" {
-#  name    = aws_acm_certificate.cert.domain_validation_options.resource_record_name
-#  type    = aws_acm_certificate.cert.domain_validation_options.resource_record_type
-#  zone_id = var.zoneid
-#  records = aws_acm_certificate.cert.domain_validation_options.resource_record_value
-#  ttl     = 60
-#}
-
-#resource "aws_acm_certificate_validation" "cert" {
-#  certificate_arn         = aws_acm_certificate.cert.arn
-#  validation_record_fqdns = [aws_route53_record.cert_validation.fqdn]
-#}
 
 resource "aws_cloudfront_distribution" "static_site_distribution" {
   origin {

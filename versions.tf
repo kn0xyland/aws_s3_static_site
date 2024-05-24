@@ -23,7 +23,7 @@ terraform {
 
 ##  AWS s3 Backend for storing terraform state - Recommended - ensure bucket versioning is enabled if using this for production
 #   backend "s3" {
-#     bucket = "your-terraform-site-bucket-1234"
+#     bucket = "YOUR-S3-TERRAFORM-BUCKET-NAME"
 #     region = "ap-southeast-2" 
 #     key    = "terraform.tfstate"
 #   }
