@@ -126,7 +126,7 @@ resource "aws_s3_bucket_versioning" "loggin_bucket_versioning" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "logging_lifecycle" {
-  bucket = aws_s3_bucket.static_site_bucket.id
+  bucket = aws_s3_bucket.cloudfront_logging_bucket
 
   rule {
     id = "expire-logs"
